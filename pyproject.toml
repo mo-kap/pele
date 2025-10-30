@@ -5,6 +5,7 @@ requires = [
     'numpy',
     'cython>=3',
     'PyQt5',
+    'lammps[mpi]',
 ]
 build-backend = 'mesonpy'
 
@@ -32,4 +33,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 testing = [
     'pynose',
+]
+lammps = [
+    'lammps[mpi]',
 ]

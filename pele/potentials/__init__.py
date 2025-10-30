@@ -82,3 +82,8 @@ from .xyspin import *
 from .morse import Morse
 from .ml import MLCost
 
+try:
+    from pele.potentials.lammps_potential_python import LAMMPSPotential
+    from pele.potentials.lammps_pele_cython import LAMMPSPotential as LAMMPSPotentialCPP
+except ImportError:
+    pass

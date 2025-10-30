@@ -121,6 +121,7 @@ py.install_sources(
     'potentials/gminpotential.py',
     'potentials/heisenberg_spin.py',
     'potentials/heisenberg_spin_RA.py',
+    'potentials/lammps_potential_python.py',
     'potentials/lj.py',
     'potentials/lj_simple.py',
     'potentials/ljcut.py',
@@ -320,6 +321,7 @@ py.install_sources(
     'potentials/tests/test_inversepower_cpp.py',
     'potentials/tests/test_inversepower_stillinger_cpp.py',
     'potentials/tests/test_inversepower_stillinger_cut_cpp.py',
+    'potentials/tests/test_lammps_potential.py',
     'potentials/tests/test_lj.py',
     'potentials/tests/test_lj_cpp.py',
     'potentials/tests/test_ljcut.py',
@@ -415,6 +417,17 @@ py.install_sources(
 )
 
 py.install_sources(
+    'include/lammps/json_fwd.h',
+    subdir: 'pele/include/lammps'
+)
+
+py.install_sources(
+    'include/lammps/nlohmann/json_fwd.hpp',
+    'include/lammps/nlohmann/json.hpp',
+    subdir: 'pele/include/lammps/nlohmann'
+)
+
+py.install_sources(
     'include/pele/aatopology.h',
     'include/pele/array.h',
     'include/pele/atomlist_potential.h',
@@ -450,6 +463,7 @@ py.install_sources(
     'include/pele/simple_pairwise_potential.h',
     'include/pele/vecn.h',
     'include/pele/wca.h',
+    'include/pele/lammps_pele.h',
     subdir: 'pele/include/pele'
 )
 
