@@ -27,7 +27,7 @@ jobs:
         mkdir ~/envs
         conda env create -f environment.yml --prefix ~/envs/pele
         conda activate ~/envs/pele
-        pip install --no-build-isolation .[testing]
+        pip install .[lammps,testing]
         cd
         nosetests pele
 

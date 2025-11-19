@@ -8,7 +8,7 @@ class TestLammpsPotential(unittest.TestCase):
     def setUp(self):
         from lammps import lammps
 
-        self.lmp = lmp = lammps(cmdargs="-screen /dev/null".split())
+        self.lmp = lmp = lammps(cmdargs="-screen none -log none".split())
         lmp.cmd.units("lj")
         lmp.cmd.atom_style("atomic")
         lmp.cmd.boundary('s', 's', 's')
