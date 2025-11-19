@@ -23,6 +23,7 @@ dependencies = [
     'PyQt5',
     'brewer2mpl',
     'munkres',
+    'lammps[mpi]',
 ]
 requires-python = ">= 3.9, <3.14"
 readme = "README.rst"
@@ -33,7 +34,4 @@ dynamic = ["version"]
 [project.optional-dependencies]
 testing = [
     'pynose',
-]
-lammps = [
-    'lammps[mpi]',
 ]
