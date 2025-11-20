@@ -419,17 +419,6 @@ py.install_sources(
 )
 
 py.install_sources(
-    'include/lammps/json_fwd.h',
-    subdir: 'pele/include/lammps'
-)
-
-py.install_sources(
-    'include/lammps/nlohmann/json_fwd.hpp',
-    'include/lammps/nlohmann/json.hpp',
-    subdir: 'pele/include/lammps/nlohmann'
-)
-
-py.install_sources(
     'include/pele/aatopology.h',
     'include/pele/array.h',
     'include/pele/atomlist_potential.h',
@@ -465,9 +454,26 @@ py.install_sources(
     'include/pele/simple_pairwise_potential.h',
     'include/pele/vecn.h',
     'include/pele/wca.h',
-    'include/pele/lammps_pele.h',
     subdir: 'pele/include/pele'
 )
+
+if get_option('lammps').enabled()
+    py.install_sources(
+        'include/pele/lammps_pele.h',
+        subdir: 'pele/include/pele'
+    )
+
+    py.install_sources(
+        'include/lammps/json_fwd.h',
+        subdir: 'pele/include/lammps'
+    )
+
+    py.install_sources(
+        'include/lammps/nlohmann/json_fwd.hpp',
+        'include/lammps/nlohmann/json.hpp',
+        subdir: 'pele/include/lammps/nlohmann'
+    )
+endif
 
 subdir('accept_tests')
 subdir('angleaxis')

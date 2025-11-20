@@ -14,7 +14,7 @@ cdef extern from "pele/lammps_pele.h" namespace "pele":
 
 
 cdef class LAMMPSPotential(_pele.BasePotential):
-    """define the python interface to the c++ Morse implementation
+    """define the python interface to the LAMMPS library
     """
     def __cinit__(self, lmp):
         self.thisptr = shared_ptr[_pele.cBasePotential]( <_pele.cBasePotential*>new cLAMMPSPotential(<uintptr_t>lmp.lmp.value) )

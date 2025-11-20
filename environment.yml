@@ -4,7 +4,5 @@ channels:
 dependencies:
   - meson
   - compilers
-  - libgl
-  - mpich
   - pkg-config
   - python >=3.9, <3.14

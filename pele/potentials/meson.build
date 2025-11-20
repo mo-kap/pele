@@ -167,17 +167,19 @@ py.extension_module(
 )
 
 
-py.extension_module(
-    'lammps_pele_cython',
-    ['lammps_pele_cython.pyx', '../../pele/sources/lammps_pele.cpp'],
-    include_directories: [inc_np, inc_pele, inc_lammps],
-    dependencies : [py_dep, pele_dep, cython_compile_dep, lammps_dep, lammps_lib],
-    install: true,
-    subdir: 'pele/potentials',
-    override_options : ['cython_language=cpp'],
-    cython_args : cython_args,
-    build_rpath : lammps_rpath,
-)
+if get_option('lammps').enabled()
+    py.extension_module(
+        'lammps_pele_cython',
+        ['lammps_pele_cython.pyx', '../../pele/sources/lammps_pele.cpp'],
+        include_directories: [inc_np, inc_pele, inc_lammps],
+        dependencies : [py_dep, pele_dep, cython_compile_dep, lammps_dep, lammps_lib, mpi_dep],
+        install: true,
+        subdir: 'pele/potentials',
+        override_options : ['cython_language=cpp'],
+        cython_args : cython_args,
+        build_rpath : lammps_rpath,
+    )
+endif
 
 
 subdir('fortran')

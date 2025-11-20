@@ -27,7 +27,22 @@ jobs:
         mkdir ~/envs
         conda env create -f environment.yml --prefix ~/envs/pele
         conda activate ~/envs/pele
+        conda install libgl
+        
+        # test a vanilla install with no LAMMPS interface
         pip install .[testing]
         cd
         nosetests pele
+        cd - 
 
+        # test an install with a pure Python LAMMPS interface
+        pip install .[lammps,testing]
+        cd
+        nosetests pele
+        cd - 
+
+        # test an install with a c++ LAMMPS interface
+        pip install .[lammps,testing] -Csetup-args="-Dlammps=enabled"
+        cd
+        nosetests pele
+        cd - 

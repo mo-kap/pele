@@ -3,7 +3,7 @@ from itertools import groupby
 import numpy as np
 
 from pele.optimize import modifiedfire_cpp
-from pele.potentials import LAMMPSPotentialCPP
+from pele.potentials import LAMMPSPotential
 from pele.systems import AtomicCluster, dict_copy_update
 from pele.utils.elements import elements
 
@@ -22,7 +22,7 @@ class AtomicClusterLAMMPS(AtomicCluster):
         return [list(group) for key, group in groupby(atom_numbers, key=atom_types.__getitem__)]
 
     def get_potential(self):
-        return LAMMPSPotentialCPP(self.lmp)
+        return LAMMPSPotential(self.lmp)
 
     def get_system_properties(self):
         return dict(natoms=int(self.natoms),

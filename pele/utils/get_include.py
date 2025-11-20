@@ -8,3 +8,15 @@ def get_include() -> pathlib.Path:
         return include_path.relative_to(current_path)
     else:
         return include_path
+
+
+def get_lammps_include() -> pathlib.Path:
+    import lammps
+    lammps_package_path = pathlib.Path(lammps.__file__).parent
+    pip_include_path = lammps_package_path / "include" / "lammps"
+    if pip_include_path.exists():
+        return pip_include_path
+    local_include_path = lammps_package_path.parent.parent.parent.parent / "include" / "lammps"
+    if local_include_path.exists():
+        return local_include_path
+    return None

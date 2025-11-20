@@ -1,12 +1,14 @@
 import unittest
 
 from pele.optimize import lbfgs_cpp
-from pele.potentials import LAMMPSPotential, LAMMPSPotentialCPP, LJ
+from pele.potentials import have_lammps
 
 
+@unittest.skipUnless(have_lammps, "requires LAMMPS")
 class TestLammpsPotential(unittest.TestCase):
     def setUp(self):
         from lammps import lammps
+        from pele.potentials import LAMMPSPotential, LJ
 
         self.lmp = lmp = lammps(cmdargs="-screen none -log none".split())
         lmp.cmd.units("lj")
@@ -21,7 +23,6 @@ class TestLammpsPotential(unittest.TestCase):
         lmp.cmd.pair_coeff(1, 1, 1.0, 1.0, 100.0)
         lmp.cmd.neighbor(0.3, "bin")
         self.potential = LAMMPSPotential(lmp)
-        self.potential_cpp = LAMMPSPotentialCPP(lmp)
         self.lj = LJ()
         self.coords = self.lmp.numpy.extract_atom('x').flatten().copy()
 
@@ -39,19 +40,5 @@ class TestLammpsPotential(unittest.TestCase):
         self.assertTrue(ret.success)
         self.assertEqual(
             self.potential.getEnergy(ret.coords),
-            self.lj.getEnergy(ret.coords)
-        )
-
-    def test_energy_cpp(self):
-        self.assertEqual(
-            self.potential_cpp.getEnergy(self.coords),
-            self.lj.getEnergy(self.coords)
-        )
-
-    def test_minimize_cpp(self):
-        ret = lbfgs_cpp(self.coords, self.potential_cpp)
-        self.assertTrue(ret.success)
-        self.assertEqual(
-            self.potential_cpp.getEnergy(ret.coords),
             self.lj.getEnergy(ret.coords)
         )

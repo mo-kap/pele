@@ -1,12 +1,14 @@
 import unittest
 
-from lammps import lammps
-
-from pele.systems import AtomicClusterLAMMPS
+from pele.potentials import have_lammps
 
 
+@unittest.skipUnless(have_lammps, "requires LAMMPS")
 class TestLJClusterSystem(unittest.TestCase):
     def setUp(self):
+        from lammps import lammps
+        from pele.systems import AtomicClusterLAMMPS
+
         self.lmp = lmp = lammps(cmdargs="-screen none -log none".split())
         lmp.commands_string("""
         units lj

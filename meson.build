@@ -31,23 +31,29 @@ incdir_pele = run_command(py,
 inc_pele = include_directories(incdir_pele)
 pele_dep = declare_dependency(include_directories: inc_pele)
 
-lammpsdir = run_command(py,
-    ['-c', 'import pathlib, lammps; print(pathlib.Path(lammps.__file__).parent)'],
-    check : true
-).stdout().strip()
-cpp = meson.get_compiler('cpp')
-lammps_lib = cpp.find_library('lammps', dirs : lammpsdir, required: true)
-inc_lammps = include_directories([
-  lammpsdir/'include/lammps',
-  incdir_pele/'lammps',
-])
-lammps_dep = declare_dependency(include_directories: inc_lammps)
-
 cython_args = ['-Xembedsignature=True','-3']
-cython_compile_dep = declare_dependency(compile_args: ['-Wall', '-Wextra', '-pedantic', '-funroll-loops', '-O3']) 
+cython_compile_dep = declare_dependency(compile_args: ['-Wall', '-Wextra', '-pedantic', '-funroll-loops', '-O3'])
 
 pyuic = find_program('pyuic5')
 pyrcc = find_program('pyrcc5')
 
-lammps_rpath = py.get_path('purelib')/'lammps'
+if get_option('lammps').enabled()
+    lammpsdir = run_command(
+        py, ['-c', 'import pathlib, lammps; print(pathlib.Path(lammps.__file__).parent)'], check : true
+    ).stdout().strip()
+
+    cpp = meson.get_compiler('cpp')
+    lammps_lib = cpp.find_library('lammps', dirs : lammpsdir, required: true)
+    mpi_dep = dependency('mpi', required: true, language: 'cpp')
+
+    incdir_lammps = run_command(
+        py, ['-c', 'import pele; print(pele.get_lammps_include())'], check : true
+    ).stdout().strip()
+
+    inc_lammps = include_directories([incdir_lammps, incdir_pele/'lammps'])
+    lammps_dep = declare_dependency(include_directories: inc_lammps)
+
+    lammps_rpath = py.get_path('purelib')/'lammps'
+endif
+
 subdir('pele')
