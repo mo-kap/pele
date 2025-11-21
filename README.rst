@@ -36,47 +36,49 @@ the algorithms implemented are:
 
 1. Basinhopping global optimization
 
-#. LBFGS minimization (plus other minimizers)
+#. Energy minimization
 
-#. Single ended saddle point search:
+   - LBFGS
+   - FIRE
+
+#. Single ended saddle point search
 
    - Hybrid Eigenvector Following
-
    - Dimer method
 
-4. Double ended saddle point search
+#. Double ended saddle point search
 
    - Nudged Elastic Band (NEB)
-
    - Doubly Nudged Elastic Band (DNEB)
 
-5. Disconnectivity Graph visualization
+#. Disconnectivity Graph visualization
 
-6. Structure alignment algorithms
+#. Structure alignment algorithms
 
-7. Thermodynamics (e.g. heat capacity) via the Harmonic Superposition Approximation
+#. Thermodynamics (e.g. heat capacity) via the Harmonic Superposition Approximation
 
-8. Transition rates analysis
+#. Transition rates analysis
 
 Installation
 ============
 
-The tried and tested method is to install via conda and pip. In this directory::
+Building and installing pele requires the meson build system, C++ and FORTRAN compilers for building compiled
+extensions, and a Python installation (version >=3.9, <3.14).
+These dependencies can be satisfied by creating a new Conda environment from the packaged ``environment.yml`` file::
 
     conda env create -f environment.yml
     conda activate pele
-    pip install . --no-build-isolation
 
-Alternatively, you can install with pip directly::
+With the dependencies installed, installing pele is as simple as::
 
+    git clone https://github.com/pele-python/pele.git
+    cd pele
     pip install .
 
-(requires a c++ and FORTRAN compiler to be on the path).
+Options
+--------
 
-Testing
-=======
-
-To make tests available, replace `.` with `.[testing]`, e.g.::
+To make tests available, replace ``.`` with ``.[testing]``, *i.e.*::
 
     pip install .[testing]
 
@@ -85,13 +87,28 @@ and then, outside of this source tree, run::
     nosetests pele
 
 We also have tests for our c++ code writen in pure c++.  These are stored in
-the folder cpp_tests/ and can be compiled using CMake. These tests have not been tested recently.
+the folder ``cpp_tests/`` and can be compiled using CMake. These tests have not been tested recently.
+
+To use the new LAMMPS interface::
+
+    pip install .[lammps]
+
+making the pure Python LAMMPS potential class and related system classes available.
+
+To use the compiled LAMMPS interface::
+
+    pip install .[lammps] -Csetup-args="-Dlammps=enabled"
+
+making the compiled c++ LAMMPS potential class available.
+
+Pip will download and install the LAMMPS Python package if one is not already on the path, along with MPICH headers.
+If the LAMMPS python package has been compiled and installed from source, the relevant MPI headers must also be on the
+path.
 
 Running
 =======
 
-You can find examples of how to run pele in the examples folder.  More
-information can be found in the documentation at
+You can find examples of how to run pele in the examples folder.  More information can be found in the documentation at
 
 http://pele-python.github.com/pele/
 
